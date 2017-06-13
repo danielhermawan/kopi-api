@@ -16,4 +16,13 @@ class UserRepository extends BaseRepository
     {
         return new User();
     }
+
+    public function revokeRefreshToken($id)
+    {
+        $this->database->table('oauth_refresh_tokens')
+            ->where('access_token_id', $id)
+            ->update([
+                'revoked' => true
+            ]);
+    }
 }

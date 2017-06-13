@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Client\LoginClient;
 use App\Http\Requests\LoginRequest;
 use App\Repositories\UserRepository;
+use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
 
     private $repository;
@@ -25,6 +26,14 @@ class LoginController extends Controller
     {
         $user = $this->repository->getWhere('username', $request->input('username'), true);
         $response = $this->client->getToken('password', $user->email, $request->input('password'));
-        return response()->json($response['body'], $response['status']);
+        return $this->jsonReponse($response['body'], $response['status']);
+    }
+
+    public function logout(Request $request)
+    {
+        $accessToken = $request->user()->token();
+        $this->repository->revokeRefreshToken($accessToken->id);
+        $accessToken->revoke();
+        return $this->noContent();
     }
 }

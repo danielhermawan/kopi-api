@@ -107,5 +107,14 @@ trait TransformerHelpers
         return $manager->createData($resource)->toArray();
     }
 
+    public function jsonReponse($body = [], $status = 200)
+    {
+        return response()->json($body, $status);
+    }
+
+    public function noContent()
+    {
+        return response(null, 204);
+    }
 
 }
