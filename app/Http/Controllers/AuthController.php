@@ -25,7 +25,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $user = $this->repository->getWhere('username', $request->input('username'), true);
-        $response = $this->client->getToken('password', $user->email, $request->input('password'));
+        $response = $this->client->getToken('password', $user->email ?? "", $request->input('password'));
         return $this->jsonReponse($response['body'], $response['status']);
     }
 

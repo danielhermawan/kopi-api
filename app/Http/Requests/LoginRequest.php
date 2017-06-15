@@ -22,7 +22,7 @@ class LoginRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'username' => 'required|exists:users',
+            'username' => 'required',
             'password' => 'required'
         ];
     }
