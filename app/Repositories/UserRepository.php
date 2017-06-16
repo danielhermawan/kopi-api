@@ -25,4 +25,9 @@ class UserRepository extends BaseRepository
                 'revoked' => true
             ]);
     }
+
+    public function getProducts($userId)
+    {
+        return $this->getBuilder()->find($userId)->products()->get();
+    }
 }

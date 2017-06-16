@@ -8,11 +8,13 @@
 
 namespace App\Traits;
 
+use App\CustomSerializer;
+use Illuminate\Database\Eloquent\Model;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use League\Fractal\Serializer\DataArraySerializer;
+use League\Fractal\TransformerAbstract;
 use Request;
 
 trait TransformerHelpers
@@ -60,7 +62,7 @@ trait TransformerHelpers
 
     public function getSerializer()
     {
-        return new DataArraySerializer();
+        return new CustomSerializer();
     }
 
     public function getManager()
@@ -81,10 +83,25 @@ trait TransformerHelpers
      * @param string $key
      * @return array
      */
-    public function transformItem($item, $transformer, $key="data")
+    public function transformItem(Model $item, TransformerAbstract $transformer, string $key="data")
     {
         $manager = $this->getManager();
         $resource = new Item($item, $transformer, $key);
+        return $manager->createData($resource)->toArray();
+    }
+
+    /**
+     * Transform item using transformer class
+     *
+     * @param \Illuminate\Database\Eloquent\Model $item
+     * @param \League\Fractal\TransformerAbstract $transformer
+     * @param string $key
+     * @return array
+     */
+    public function transformCollection($item, TransformerAbstract $transformer, string $key="data")
+    {
+        $manager = $this->getManager();
+        $resource = new Collection($item, $transformer, $key);
         return $manager->createData($resource)->toArray();
     }
 

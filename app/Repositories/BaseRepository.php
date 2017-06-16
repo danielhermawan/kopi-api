@@ -32,6 +32,12 @@ abstract class BaseRepository
 
     abstract protected function getModel();
 
+
+    public function getAll()
+    {
+        return $this->getBuilder()->get();
+    }
+
     public function getWhere($key, $value, $isSingle = false)
     {
         $query = $this->getBuilder()->where($key, $value);
