@@ -12,8 +12,8 @@ use League\Fractal\TransformerAbstract;
  */
 class UserProductTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [];
-    protected $defaultIncludes = ['category'];
+    protected $availableIncludes = ['category'];
+    protected $defaultIncludes = [];
 
     public function transform($product): array
     {

@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('category', 'CategoryController@index');
     Route::get('/me/product', "UserController@getProducts");
+    Route::get('/me/category', "UserController@getCategories");
     Route::post('/logout', 'AuthController@logout');
 });
 

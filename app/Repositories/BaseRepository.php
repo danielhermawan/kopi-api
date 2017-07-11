@@ -47,6 +47,11 @@ abstract class BaseRepository
             return $query->get();
     }
 
+    public function getInclude($include)
+    {
+        return $this->getBuilder()->eagerLoading($include)->get();
+    }
+
     public function getBuilder()
     {
         return $this->model->newQuery();

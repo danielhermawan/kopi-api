@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ProductCategory;
 use App\Models\User;
 
 class UserRepository extends BaseRepository
@@ -29,5 +30,20 @@ class UserRepository extends BaseRepository
     public function getProducts($userId)
     {
         return $this->getBuilder()->find($userId)->products()->get();
+    }
+
+    public function getCategoriedProduct($userId)
+    {
+        $products = $this->getProducts($userId);
+        $categories = ProductCategory::all();
+        foreach ($categories as $c) {
+            $temp = [];
+            foreach ($products as $p) {
+                if($p->category_id == $c->id)
+                    $temp[] = $p;
+            }
+            $c['products'] = $temp;
+        }
+        return $categories;
     }
 }

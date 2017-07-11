@@ -18,4 +18,5 @@ class CategoryRepository extends BaseRepository
     {
         return new ProductCategory();
     }
+
 }

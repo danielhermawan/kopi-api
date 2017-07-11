@@ -11,8 +11,8 @@ use League\Fractal\TransformerAbstract;
  */
 class ProductCategoryTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [];
-    protected $defaultIncludes = [];
+    protected $availableIncludes = ['products'];
+    protected $defaultIncludes = ['products'];
 
     public function transform($category): array
     {
@@ -20,5 +20,11 @@ class ProductCategoryTransformer extends TransformerAbstract
             "id" => $category->id,
             "name" => $category->name
         ];
+    }
+
+    public function includeProducts($category)
+    {
+        $products = $category->products;
+        return $this->collection($products, new UserProductTransformer());
     }
 }

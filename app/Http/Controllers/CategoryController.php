@@ -7,6 +7,10 @@ use App\Transformer\ProductCategoryTransformer;
 
 class CategoryController extends Controller
 {
+
+    /**
+     * @var CategoryRepository
+     */
     private $repository;
 
     /**
