@@ -33,7 +33,6 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany('App\Models\Order')
-            ->withPivot('quantity', 'price')
-            ->withTimestamps();
+            ->withPivot('quantity', 'price');
     }
 }

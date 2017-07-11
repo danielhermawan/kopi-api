@@ -1,6 +1,11 @@
 <?php
 
 /*
+    Declare all project file to be strict. Read PHP 7 specification for more information
+*/
+declare(strict_types=1);
+
+/*
 |--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------
