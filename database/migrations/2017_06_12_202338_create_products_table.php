@@ -37,6 +37,7 @@ class CreateProductsTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->primary(['user_id', 'product_id']);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -13,5 +13,11 @@ use App\Models\Order;
 
 interface OrderContract
 {
+    /**
+     * Create Order
+     * @param int $userId
+     * @param array $products
+     * @return Order
+     */
     public function create(int $userId, array $products): Order;
 }

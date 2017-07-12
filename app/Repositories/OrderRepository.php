@@ -8,36 +8,59 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Contracts\OrderContract;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class OrderRepository implements OrderContract
 {
+    /**
+     * @var Connection
+     */
+    private $db;
+
+    /**
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    private $product;
+
+    /**
+     * OrderRepository constructor.
+     * @param Connection $db
+     */
+    public function __construct(Connection $db, Product $product)
+    {
+        $this->db = $db;
+        $this->product = $product->newQuery();
+    }
+
+    /**
+     * Create Order
+     * @param int $userId
+     * @param array $products
+     * @return Order
+     */
     public function create(int $userId, array $products): Order
     {
-        DB::beginTransaction();
+        $this->db->beginTransaction();
         $order = new Order;
         $order->user_id = $userId;
         $order->save();
         $dataProduct = [];
         foreach ($products as $p) {
-            $entity = Product::find($p["id"]);
+            $entity = $this->product->find($p["id"]);
             $dataProduct[$p["id"]] = [
                 "quantity" => $p["quantity"],
                 "price" => $entity->price
             ];
-            DB::table('product_user')->decrement("quantity", $p["quantity"], [
+            $this->db->table('product_user')->where([
                 'user_id' => $userId,
                 'product_id' => $p["id"]
-            ]);
+            ])->decrement("quantity", $p["quantity"]);
         }
-        //print_r($dataProduct);die();
-        //$order->products()->attach([121 => ['quantity' => 1, 'price' => 38910]]);
         $order->products()->attach($dataProduct);
-        DB::commit();
+        $this->db->commit();
         return $order;
     }
 }
