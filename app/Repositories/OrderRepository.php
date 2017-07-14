@@ -21,18 +21,12 @@ class OrderRepository implements OrderContract
     private $db;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder
-     */
-    private $product;
-
-    /**
      * OrderRepository constructor.
      * @param Connection $db
      */
-    public function __construct(Connection $db, Product $product)
+    public function __construct(Connection $db)
     {
         $this->db = $db;
-        $this->product = $product->newQuery();
     }
 
     /**
@@ -49,7 +43,7 @@ class OrderRepository implements OrderContract
         $order->save();
         $dataProduct = [];
         foreach ($products as $p) {
-            $entity = $this->product->find($p["id"]);
+            $entity = Product::find($p["id"]);
             $dataProduct[$p["id"]] = [
                 "quantity" => $p["quantity"],
                 "price" => $entity->price
