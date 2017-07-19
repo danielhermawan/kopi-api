@@ -42,6 +42,6 @@ $factory->define(App\Models\Product::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
 
     return [
-       'user_id' => 61
+       'user_id' => App\Models\User::first()->id
     ];
 });

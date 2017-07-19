@@ -14,7 +14,7 @@ class ProductUserTableSeeder extends Seeder
     public function run()
     {
         $products = Product::all();
-        $user = User::find(61);
+        $user = User::first();
         $faker = Faker\Factory::create();
         foreach ($products as $p) {
             $user->products()

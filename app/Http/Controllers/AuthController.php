@@ -22,6 +22,11 @@ class AuthController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * Login for mobile user
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $request)
     {
         $user = $this->repository->getWhere('username', $request->input('username'), true);
@@ -29,6 +34,11 @@ class AuthController extends Controller
         return $this->jsonReponse($response['body'], $response['status']);
     }
 
+    /**
+     * Logout for mobile user
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function logout(Request $request)
     {
         $accessToken = $request->user()->token();

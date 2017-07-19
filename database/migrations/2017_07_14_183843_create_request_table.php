@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateRequestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,21 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });
-        Schema::create('order_product', function (Blueprint $table) {
+        Schema::create('request_product', function (Blueprint $table) {
             $table->integer('product_id')->unsigned();
-            $table->integer('order_id')->unsigned();
+            $table->integer('request_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('price')->unsigned();
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('request_id')->references('id')->on('requests');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->primary(['order_id', 'product_id']);
+            $table->primary(['request_id', 'product_id']);
             $table->softDeletes();
         });
     }
@@ -39,7 +39,7 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_product');
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('request_product');
+        Schema::dropIfExists('requests');
     }
 }

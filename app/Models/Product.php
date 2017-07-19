@@ -35,4 +35,10 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Order')
             ->withPivot('quantity', 'price');
     }
+
+    public function request()
+    {
+        return $this->belongsToMany('App\Models\Request')
+            ->withPivot('quantity', 'price');
+    }
 }
