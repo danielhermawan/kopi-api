@@ -12,20 +12,19 @@
 */
 
 Route::post('/login', 'AuthController@login');
+Route::post('/admin/login', 'AuthController@loginAdmin');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/', function () {
-        return [0, 1, 2];
-    });
-
     Route::get('category', 'CategoryController@index');
     Route::post('order', 'OrderController@create');
     Route::post('request', 'RequestController@create');
-    Route::get('/me/product', "UserController@getProducts");
-    Route::get('/me/category', "UserController@getCategories");
+    Route::get('/me/product', "MeController@getProducts");
+    Route::get('/me/category', "MeController@getCategories");
     Route::post('/logout', 'AuthController@logout');
 });
 
 Route::group(['middleware' => 'auth:api-admin'], function () {
-
+    Route::get('/', function () {
+        return [0, 1, 2];
+    });
 });

@@ -6,6 +6,7 @@ use App\Client\LoginClient;
 use App\Http\Requests\LoginRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -45,5 +46,28 @@ class AuthController extends Controller
         $this->repository->revokeRefreshToken($accessToken->id);
         $accessToken->revoke();
         return $this->noContent();
+    }
+
+    /**
+     * Login for admin
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function loginAdmin(LoginRequest $request)
+    {
+        $credentials = $request->only('username', 'password');
+        $token = Auth::guard("api-admin")->attempt($credentials);
+        $status = 200;
+        $response = [];
+        if($token) {
+            $response['access_token'] = $token;
+            $response['token_type'] = "Bearer";
+        }
+        else {
+            $status = 401;
+            $response['error'] = "invalid_credentials";
+            $response['message'] = "The user credentials were incorrect.";
+        }
+        return $this->jsonReponse($response, $status);
     }
 }

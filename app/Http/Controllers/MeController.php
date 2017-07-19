@@ -7,7 +7,7 @@ use App\Transformer\ProductCategoryTransformer;
 use App\Transformer\UserProductTransformer;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class MeController extends Controller
 {
 
     private $repository;
