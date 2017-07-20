@@ -24,7 +24,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::group(['middleware' => 'auth:api-admin'], function () {
-    Route::get('/', function () {
-        return [0, 1, 2];
-    });
+    Route::resource('product', 'ProductController', ['except' => [
+        'create', 'edit'
+    ]]);
+    Route::resource('seller', 'SellerController', ['except' => [
+        'create', 'edit'
+    ]]);
 });

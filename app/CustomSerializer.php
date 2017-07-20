@@ -9,17 +9,41 @@
 namespace App;
 
 
+use League\Fractal\Resource\ResourceInterface;
 use League\Fractal\Serializer\ArraySerializer;
 
 class CustomSerializer extends ArraySerializer
 {
+    /**
+     * Serialize a collection.
+     *
+     * @param string $resourceKey
+     * @param array $data
+     *
+     * @return array
+     */
     public function collection($resourceKey, array $data)
     {
-        return ($resourceKey && $resourceKey !== 'data') ? array($resourceKey => $data) : $data;
+        if($resourceKey == null)
+            return $data;
+        else
+            return [$resourceKey => $data];
     }
 
-    public function item($resourceKey, array $data)
+    /**
+     * Serialize the included data.
+     *
+     * @param ResourceInterface $resource
+     * @param array $data
+     *
+     * @return array
+     */
+    public function includedData(ResourceInterface $resource, array $data)
     {
-        return ($resourceKey && $resourceKey !== 'data') ? array($resourceKey => $data) : $data;
+        if($resource->getResourceKey() == null)
+            return $data;
+        else
+            return [$resource->getResourceKey() => $data];
     }
+
 }

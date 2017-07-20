@@ -9,9 +9,11 @@
 namespace App\Traits;
 
 use App\CustomSerializer;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
@@ -83,7 +85,7 @@ trait TransformerHelpers
      * @param string $key
      * @return array
      */
-    public function transformItem(Model $item, TransformerAbstract $transformer, string $key="data")
+    public function transformItem(Model $item, TransformerAbstract $transformer, string $key=null)
     {
         $manager = $this->getManager();
         $resource = new Item($item, $transformer, $key);
@@ -93,12 +95,12 @@ trait TransformerHelpers
     /**
      * Transform item using transformer class
      *
-     * @param \Illuminate\Database\Eloquent\Model $item
+     * @param \Illuminate\Database\Eloquent\Collection $item
      * @param \League\Fractal\TransformerAbstract $transformer
      * @param string $key
      * @return array
      */
-    public function transformCollection($item, TransformerAbstract $transformer, string $key="data")
+    public function transformCollection($item, TransformerAbstract $transformer, string $key=null)
     {
         $manager = $this->getManager();
         $resource = new Collection($item, $transformer, $key);
@@ -106,7 +108,7 @@ trait TransformerHelpers
     }
 
     /**
-     * Make paginate collection
+     * Make cursor collection
      * 
      * @param \Illuminate\Support\Collection $model
      * @param \League\Fractal\TransformerAbstract $transformer
@@ -114,7 +116,7 @@ trait TransformerHelpers
      * @param string $key
      * @return array
      */
-    public function paginateCollection($model , $transformer, $count, $key="data")
+    public function cursorCollection($model, $transformer, $count, $key=null)
     {
         $newCursor = $this->getCurrentCursor() + $this->getLimit();
         $cursor = new Cursor($this->getCurrentCursor(), $this->getPreviosCursor(), $newCursor, $count);
@@ -122,6 +124,21 @@ trait TransformerHelpers
         $resource = new Collection($model, $transformer, $key);
         $resource->setCursor($cursor);
         return $manager->createData($resource)->toArray();
+    }
+
+    /**
+     * Make paginate collection
+     *
+     * @param LengthAwarePaginator $paginator
+     * @param TransformerAbstract $transformer
+     * @param string|null $key
+     * @return array
+     */
+    public function paginateCollection(LengthAwarePaginator $paginator, TransformerAbstract $transformer, string $key=null): array
+    {
+        $collection = new Collection($paginator->items(), $transformer, $key);
+        $collection->setPaginator(new IlluminatePaginatorAdapter($paginator));
+        return $this->getManager()->createData($collection)->toArray();
     }
 
     public function jsonReponse($body = [], $status = 200)

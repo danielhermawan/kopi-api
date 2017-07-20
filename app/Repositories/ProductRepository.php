@@ -12,6 +12,7 @@ namespace App\Repositories;
 use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Contracts\ProductContract;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -40,7 +41,7 @@ class ProductRepository implements ProductContract
 
     public function getAll(): Collection
     {
-        return $this->product->get();
+        return $this->product->with('category')->get();
     }
 
     /**
@@ -77,5 +78,44 @@ class ProductRepository implements ProductContract
     protected function getModel()
     {
         return new Order();
+    }
+
+    public function getDetail(int $id): Product
+    {
+        return Product::find($id);
+    }
+
+    public function create($data): Product
+    {
+        $product = new Product;
+        $product->name = $data['name'];
+        $product->price = $data['price'];
+        $product->currency = $data['currency'] ?? "IDR";
+        $product->category_id = $data['category_id'];
+        $product->image_url = $data['image_url'] ?? "http://kopigo.folto.co/uploads/images/coffee.png";
+        $product->save();
+        return $product;
+    }
+
+    public function update(int $id, $data): Product
+    {
+        $product = Product::find($id);
+        $product->name = $data['name'];
+        $product->price = $data['price'];
+        $product->currency = $data['currency'];
+        $product->category_id = $data['category_id'];
+        $product->image_url = $data['image_url'] ?? "http://kopigo.folto.co/uploads/images/coffee.png";
+        $product->save();
+        return $product;
+    }
+
+    public function delete($id)
+    {
+        Product::destroy($id);
+    }
+
+    public function getPaginate(int $limit = 15): LengthAwarePaginator
+    {
+        return $this->product->with('category')->paginate($limit);
     }
 }
