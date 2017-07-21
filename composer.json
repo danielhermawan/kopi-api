@@ -9,10 +9,11 @@
         "guzzlehttp/guzzle": "^6.2",
         "irazasyed/jwt-auth-guard": "^1.0",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "^2.0",
+        "laravel/passport": "3.0.*",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.16.0",
         "nesbot/carbon": "^1.22",
+        "predis/predis": "~1.0",
         "tymon/jwt-auth": "1.0.x-dev"
     },
     "require-dev": {

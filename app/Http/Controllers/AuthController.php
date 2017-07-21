@@ -60,7 +60,10 @@ class AuthController extends Controller
         $status = 200;
         $response = [];
         if($token) {
+            $user = Auth::guard("api-admin")->user();
             $response['access_token'] = $token;
+            $response['id'] = $user['id'];
+            $response['username'] = $user['username'];
             $response['token_type'] = "Bearer";
         }
         else {

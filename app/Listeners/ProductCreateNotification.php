@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use App\Events\ProductCreated;
 use App\Repositories\SellerRepository;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
+//todo: Using queue
 class ProductCreateNotification
 {
 
