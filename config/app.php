@@ -183,6 +183,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Irazasyed\JwtAuthGuard\JwtAuthGuardServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
     ],
 
