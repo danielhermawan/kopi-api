@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Transformer\ProductCategoryTransformer;
 use App\Transformer\UserProductTransformer;

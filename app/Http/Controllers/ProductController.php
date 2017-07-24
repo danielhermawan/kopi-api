@@ -76,7 +76,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductTransformer $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $data = $request->except(['image']);
         $product = $this->productRepo->update($id, $data);

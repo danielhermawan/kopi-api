@@ -75,11 +75,6 @@ class ProductRepository implements ProductContract
         return $this->product->eagerLoading($include)->get();
     }
 
-    protected function getModel()
-    {
-        return new Order();
-    }
-
     public function getDetail(int $id): Product
     {
         return Product::find($id);

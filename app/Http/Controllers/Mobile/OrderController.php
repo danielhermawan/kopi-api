@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\Contracts\OrderContract;
 use App\Repositories\Contracts\ProductContract;

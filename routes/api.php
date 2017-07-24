@@ -15,15 +15,17 @@ Route::post('/login', 'AuthController@login');
 Route::post('/admin/login', 'AuthController@loginAdmin');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('category', 'CategoryController@index');
-    Route::post('order', 'OrderController@create');
-    Route::post('request', 'RequestController@create');
-    Route::get('/me/product', "MeController@getProducts");
-    Route::get('/me/category', "MeController@getCategories");
+    Route::post('order', 'Mobile\OrderController@create');
+    Route::post('request', 'Mobile\RequestController@create');
+    Route::get('/me/product', "Mobile\MeController@getProducts");
+    Route::get('/me/category', "Mobile\MeController@getCategories");
     Route::post('/logout', 'AuthController@logout');
 });
 
 Route::group(['middleware' => 'auth:api-admin'], function () {
+    Route::resource('category', 'CategoryController', ['except' => [
+        'create', 'edit'
+    ]]);
     Route::resource('product', 'ProductController', ['except' => [
         'create', 'edit'
     ]]);
