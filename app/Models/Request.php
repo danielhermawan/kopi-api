@@ -18,7 +18,6 @@ class Request extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')
-            ->withPivot('quantity', 'price');
+        return $this->belongsToMany('App\Models\Product', 'request_product')->withPivot('quantity');
     }
 }

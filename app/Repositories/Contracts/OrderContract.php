@@ -10,6 +10,8 @@ namespace App\Repositories\Contracts;
 
 
 use App\Models\Order;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface OrderContract
 {
@@ -20,4 +22,7 @@ interface OrderContract
      * @return Order
      */
     public function create(int $userId, array $products): Order;
+    public function getDetail(int $id): Order;
+    public function getProducts(int $id): Collection;
+    public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator;
 }

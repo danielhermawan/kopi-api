@@ -20,4 +20,14 @@ class User extends Authenticatable
             ->withPivot('quantity')
             ->withTimestamps();
     }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany('App\Models\Request');
+    }
 }

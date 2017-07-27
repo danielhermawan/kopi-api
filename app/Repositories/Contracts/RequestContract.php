@@ -9,6 +9,8 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface RequestContract
 {
@@ -19,4 +21,10 @@ interface RequestContract
      * @return Request
      */
     public function create(int $userId, array $products): Request;
+    public function getAll(bool $filter = false, bool $isDone = false): Collection;
+    public function getDetail(int $id): Request;
+    public function getPaginate(bool $filter = false, bool $isDone = false, int $limit = 15): LengthAwarePaginator;
+    public function getProducts(int $id): Collection;
+    public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator;
+    public function requestDone(int $id);
 }

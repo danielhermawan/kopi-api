@@ -14,6 +14,7 @@ class CreateRequestTable extends Migration
     public function up()
     {
         Schema::create('requests', function (Blueprint $table) {
+            $table->boolean('is_done')->default(0);
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
@@ -24,7 +25,6 @@ class CreateRequestTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('request_id')->unsigned();
             $table->integer('quantity')->unsigned();
-            $table->integer('price')->unsigned();
             $table->foreign('request_id')->references('id')->on('requests');
             $table->foreign('product_id')->references('id')->on('products');
             $table->primary(['request_id', 'product_id']);

@@ -31,5 +31,13 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\ProductContract',
             'App\Repositories\ProductRepository'
         );
+         $this->app->bind(
+            'App\Repositories\Contracts\SellerContract',
+            'App\Repositories\SellerRepository'
+        );
+         $this->app->bind(
+             'App\Repositories\Contracts\RequestContract',
+             'App\Repositories\RequestRepository'
+         );
     }
 }

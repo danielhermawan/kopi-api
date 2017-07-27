@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SellerRepository implements SellerContract
 {
-
     /**
      * @var Connection
      */
@@ -58,15 +57,24 @@ class SellerRepository implements SellerContract
 
     public function create($data): User
     {
+        $this->db->beginTransaction();
         $user = new User;
         $user->username = $data['username'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['passsword']);
+        $user->password = bcrypt($data['password']);
         $user->name = $data['name'];
         $user->phone_number = $data['phone_number'];
         $user->gender = $data['gender'];
         $user->address = $data['address'];
+        $user->is_active = 1;
         $user->save();
+        $products = Product::all();
+        foreach ($products as $p) {
+            $user->products()->attach($p->id, [
+                'quantity' => 0
+            ]);
+        }
+        $this->db->commit();
         return $user;
     }
 
@@ -75,11 +83,11 @@ class SellerRepository implements SellerContract
         $user = User::find($id);
         $user->username = $data['username'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['passsword']);
         $user->name = $data['name'];
         $user->phone_number = $data['phone_number'];
         $user->gender = $data['gender'];
         $user->address = $data['address'];
+        $user->is_active = 1;
         $user->save();
         return $user;
     }
@@ -97,5 +105,35 @@ class SellerRepository implements SellerContract
                 'quantity' => 0
             ]);
         }
+    }
+
+    public function getProducts(int $id): Collection
+    {
+        return User::findorfail($id)->products;
+    }
+
+    public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator
+    {
+        return User::findorfail($id)->products()->paginate($limit);
+    }
+
+    public function getOrders(int $id): Collection
+    {
+        return User::findorfail($id)->orders;
+    }
+
+    public function getOrdersPaginate(int $id, int $limit = 15): LengthAwarePaginator
+    {
+        return User::findorfail($id)->orders()->paginate($limit);
+    }
+
+    public function getRequests(int $id): Collection
+    {
+        return User::findorfail($id)->requests;
+    }
+
+    public function getRequestsPaginate(int $id, int $limit = 15): LengthAwarePaginator
+    {
+        return User::findorfail($id)->requests()->paginate($limit);
     }
 }

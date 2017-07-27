@@ -11,7 +11,9 @@ namespace App\Repositories;
 use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Contracts\OrderContract;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderRepository implements OrderContract
 {
@@ -56,5 +58,20 @@ class OrderRepository implements OrderContract
         $order->products()->attach($dataProduct);
         $this->db->commit();
         return $order;
+    }
+
+    public function getProducts(int $id): Collection
+    {
+        return Order::findorfail($id)->products;
+    }
+
+    public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator
+    {
+        return Order::findorfail($id)->products()->paginate($limit);
+    }
+
+    public function getDetail(int $id): Order
+    {
+        return Order::findorfail($id);
     }
 }

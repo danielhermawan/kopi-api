@@ -32,4 +32,16 @@ Route::group(['middleware' => 'auth:api-admin'], function () {
     Route::resource('seller', 'SellerController', ['except' => [
         'create', 'edit'
     ]]);
+
+    Route::get('seller/{id}/product', 'SellerController@getProducts');
+    Route::get('seller/{id}/order', 'SellerController@getOrders');
+    Route::get('seller/{id}/request', 'SellerController@getRequests');
+    Route::get('request', 'RequestController@index');
+    Route::post('request/{id}/finish', 'RequestController@requestFinish');
+    Route::get('request/{id}', 'RequestController@show');
+    Route::get('request/{id}/product', 'RequestController@getProducts');
+    Route::get('order/{id}', 'OrderController@show');
+    Route::get('order/{id}/product', 'OrderController@getProducts');
 });
+// todo: Update request done api
+// todo: fix update api

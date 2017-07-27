@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 
-use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Contracts\ProductContract;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -97,7 +96,7 @@ class ProductRepository implements ProductContract
         $product = Product::find($id);
         $product->name = $data['name'];
         $product->price = $data['price'];
-        $product->currency = $data['currency'];
+        $product->currency = $data['currency'] ?? "IDR";
         $product->category_id = $data['category_id'];
         $product->image_url = $data['image_url'] ?? "http://kopigo.folto.co/uploads/images/coffee.png";
         $product->save();
