@@ -52,7 +52,6 @@ class RequestRepository implements RequestContract
             $entity = Product::find($p["id"]);
             $dataProduct[$p["id"]] = [
                 "quantity" => $p["quantity"],
-                "price" => $entity->price
             ];
             $this->db->table('product_user')->where([
                 'user_id' => $userId,
