@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\Contracts\OrderContract;
 use App\Repositories\Contracts\ProductContract;
+use App\Transformer\SellerOrderTransformer;
 
 class OrderController extends Controller
 {
@@ -40,7 +41,9 @@ class OrderController extends Controller
                     "message" => "Order melebihi quantity yang ada distock!"
                 ], 422);
         }
-        $this->orderRepo->create($userId, $products);
-        return $this->jsonReponse([], 201);
+        $order = $this->orderRepo->create($userId, $products);
+        return $this->jsonReponse([ 
+            'id' => $order->id
+        ], 201);
     }
 }
