@@ -98,8 +98,6 @@ class RequestRepository implements RequestContract
     {
         $this->db->beginTransaction();
         $request = Request::findorfail($id);
-        if($request->is_done)
-            return;
         $request->is_done = true;
         $request->save();
         $products = $request->products;
