@@ -98,12 +98,14 @@ class RequestRepository implements RequestContract
     {
         $this->db->beginTransaction();
         $request = Request::findorfail($id);
+        if($request->is_done)
+            return;
         $request->is_done = true;
         $request->save();
         $products = $request->products;
         foreach ($products as $p) {
             DB::table('product_user')->where('user_id', $request->user_id)
-                ->where('product_id', $p->product_id)->increment('quantity', $p->pivot->quantity);
+                ->where('product_id', $p->id)->increment('quantity', $p->pivot->quantity);
         }
         $this->db->commit();
 
