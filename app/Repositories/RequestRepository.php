@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
 use App\Models\Request;
 use App\Repositories\Contracts\RequestContract;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -47,16 +46,11 @@ class RequestRepository implements RequestContract
         $request = new Request;
         $request->user_id = $userId;
         $request->save();
-        $dataRequest = [];
+        $dataProduct = [];
         foreach ($products as $p) {
-            $entity = Product::find($p["id"]);
             $dataProduct[$p["id"]] = [
                 "quantity" => $p["quantity"],
             ];
-            $this->db->table('product_user')->where([
-                'user_id' => $userId,
-                'product_id' => $p["id"]
-            ])->decrement("quantity", $p["quantity"]);
         }
         $request->products()->attach($dataProduct);
         $this->db->commit();
