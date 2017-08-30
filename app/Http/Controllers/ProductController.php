@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ProductCreated;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Repositories\ProductRepository;
 use App\Transformer\ProductTransformer;
 use Illuminate\Http\Request;
@@ -51,6 +52,8 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->except(['image']);
+        $path = $request->file('image')->store('images');;
+        $data['image_url'] = env('APP_URL').'storage/'.$path;
         $product = $this->productRepo->create($data);
         event(new ProductCreated($product));
         return $this->jsonReponse($this->transformItem($product, new ProductTransformer()), 201);
@@ -76,11 +79,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
         $data = $request->except(['image']);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images');;
+            $data['image_url'] = env('APP_URL').'storage/'.$path;
+        }
         $product = $this->productRepo->update($id, $data);
-        return $this->jsonReponse($this->transformItem($product, new ProductTransformer()), 201);
+        return $this->jsonReponse($this->transformItem($product, new ProductTransformer()), 200);
     }
 
     /**

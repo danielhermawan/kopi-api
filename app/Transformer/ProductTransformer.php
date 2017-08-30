@@ -24,6 +24,9 @@ class ProductTransformer extends TransformerAbstract
             "name" => $product->name,
             "price" => $product->price,
             "currency" => $product->currency,
+            "min_stock" => $product->min_stock,
+            "per_stock" => $product->per_stock,
+            "purchase_price" => $product->purchase_price,
             "image_url" => $product->image_url,
             "created_at" => $product->created_at,
             "updated_at" => $product->updated_at

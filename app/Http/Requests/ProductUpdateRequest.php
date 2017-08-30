@@ -1,10 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Daniel
+ * Date: 8/30/2017
+ * Time: 5:29 PM
+ */
 
 namespace App\Http\Requests;
 
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class ProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +34,7 @@ class ProductRequest extends FormRequest
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',
             'currency' => 'filled|string',
-            'image' => 'required|image',
+            'image' => 'filled|image',
             'category_id' => 'required',
             'min_stock' => 'filled|numeric|min:0',
             'per_stock' => 'filled|numeric|min:0',

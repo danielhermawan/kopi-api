@@ -27,12 +27,13 @@ Route::group(['middleware' => 'auth:api-admin'], function () {
         'create', 'edit'
     ]]);
     Route::resource('product', 'ProductController', ['except' => [
-        'create', 'edit'
+        'create', 'edit', 'update'
     ]]);
     Route::resource('seller', 'SellerController', ['except' => [
         'create', 'edit'
     ]]);
 
+    Route::post('product/{id}/update', 'ProductController@update');
     Route::get('seller/{id}/product', 'SellerController@getProducts');
     Route::get('seller/{id}/order', 'SellerController@getOrders');
     Route::get('seller/{id}/request', 'SellerController@getRequests');

@@ -86,7 +86,10 @@ class ProductRepository implements ProductContract
         $product->price = $data['price'];
         $product->currency = $data['currency'] ?? "IDR";
         $product->category_id = $data['category_id'];
-        $product->image_url = $data['image_url'] ?? "http://kopigo.folto.co/uploads/images/coffee.png";
+        $product->image_url = $data['image_url'] ??  env('APP_URL')."storage/images/coffee.png";
+        $product->min_stock = $data['min_stock'] ?? null;
+        $product->per_stock = $data['per_stock'] ?? null;
+        $product->purchase_price = $data['purchase_price'] ?? null;
         $product->save();
         return $product;
     }
@@ -98,7 +101,10 @@ class ProductRepository implements ProductContract
         $product->price = $data['price'];
         $product->currency = $data['currency'] ?? "IDR";
         $product->category_id = $data['category_id'];
-        $product->image_url = $data['image_url'] ?? "http://kopigo.folto.co/uploads/images/coffee.png";
+        $product->image_url = $data['image_url'] ?? $product->image_url;
+        $product->min_stock = $data['min_stock'] ?? null;
+        $product->per_stock = $data['per_stock'] ?? null;
+        $product->purchase_price = $data['purchase_price'] ?? null;
         $product->save();
         return $product;
     }
