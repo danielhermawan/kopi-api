@@ -10,8 +10,8 @@ namespace App\Http\Controllers;
 
 
 use App\Repositories\Contracts\RequestContract;
+use App\Transformer\RequestProductTransformer;
 use App\Transformer\SellerRequestTransformer;
-use App\Transformer\UserProductTransformer;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -48,11 +48,11 @@ class RequestController extends Controller
         $paginate = $request->get('paginate', 0);
         if($paginate == 0) {
             $products = $this->repository->getProducts($id);
-            return $this->jsonReponse($this->transformCollection($products, new UserProductTransformer(), 'data'));
+            return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer(), 'data'));
         }
         else {
             $paginator = $this->repository->getProductsPaginate($id);
-            return $this->jsonReponse($this->paginateCollection($paginator, new UserProductTransformer(), "data"));
+            return $this->jsonReponse($this->paginateCollection($paginator, new RequestProductTransformer(), "data"));
         }
     }
 

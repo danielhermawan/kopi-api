@@ -90,6 +90,9 @@ class ProductRepository implements ProductContract
         $product->min_stock = $data['min_stock'] ?? null;
         $product->per_stock = $data['per_stock'] ?? null;
         $product->purchase_price = $data['purchase_price'] ?? null;
+        $product->min_stock_unit = $data['min_stock_unit'] ?? null;
+        $product->type = $data['type'] ?? null;
+        $product->recipe = $data['recipe'] ?? null;
         $product->save();
         return $product;
     }
@@ -105,6 +108,9 @@ class ProductRepository implements ProductContract
         $product->min_stock = $data['min_stock'] ?? null;
         $product->per_stock = $data['per_stock'] ?? null;
         $product->purchase_price = $data['purchase_price'] ?? null;
+        $product->min_stock_unit = $data['min_stock_unit'] ?? null;
+        $product->type = $data['type'] ?? null;
+        $product->recipe = $data['recipe'] ?? null;
         $product->save();
         return $product;
     }

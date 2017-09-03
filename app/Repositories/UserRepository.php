@@ -46,4 +46,18 @@ class UserRepository extends BaseRepository
         }
         return $categories;
     }
+
+    public function getOrderProducts($userId)
+    {
+        return User::find($userId)->products()
+            ->whereIn('type', ['order', 'stock_order'])
+            ->get();
+    }
+
+    public function getStockProducts($userId)
+    {
+        return User::find($userId)->products()
+            ->whereIn('type', ['stock', 'stock_order', 'stock_kg'])
+            ->get();
+    }
 }

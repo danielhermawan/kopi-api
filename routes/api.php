@@ -19,6 +19,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('request', 'Mobile\RequestController@create');
     Route::get('/me/product', "Mobile\MeController@getProducts");
     Route::get('/me/category', "Mobile\MeController@getCategories");
+    Route::get('/me/product-order', "Mobile\MeController@getProductOrders");
+    Route::get('/me/product-stock', "Mobile\MeController@getStockOrders");
     Route::post('/logout', 'AuthController@logout');
 });
 

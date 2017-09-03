@@ -23,6 +23,12 @@ class UserProductTransformer extends TransformerAbstract
             "price" => $product->price,
             "currency" => $product->currency,
             "image_url" => $product->image_url,
+            "min_stock" => $product->min_stock,
+            "min_stock_unit" => $product->min_stock_unit,
+            "per_stock" => $product->per_stock,
+            "purchase_price" => $product->purchase_price,
+            "type" => $product->type,
+            "recipe" => $product->recipe,
             "quantity" => $product->pivot->quantity
         ];
     }

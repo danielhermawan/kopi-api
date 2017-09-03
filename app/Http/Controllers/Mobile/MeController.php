@@ -28,6 +28,20 @@ class MeController extends Controller
         return $this->jsonReponse($result);
     }
 
+    public function getProductOrders(Request $request)
+    {
+        $products = $this->repository->getOrderProducts($request->user()->id);
+        $result = $this->transformCollection($products, new UserProductTransformer());
+        return $this->jsonReponse($result);
+    }
+
+    public function getStockOrders(Request $request)
+    {
+        $products = $this->repository->getStockProducts($request->user()->id);
+        $result = $this->transformCollection($products, new UserProductTransformer());
+        return $this->jsonReponse($result);
+    }
+
     public function getCategories(Request $request)
     {
         $products = $this->repository->getCategoriedProduct($request->user()->id);

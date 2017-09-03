@@ -73,14 +73,30 @@ class RequestRepository implements RequestContract
         return $this->request->paginate();
     }
 
-    public function getProducts(int $id): Collection
+    public function getProducts(int $id)
     {
-        return Request::findorfail($id)->products;
+        return DB::table('request_product as rp')
+            ->join('requests as r', 'rp.request_id', '=', 'r.id')
+            ->join('product_user as pu', function ($join) {
+                $join->on('pu.user_id', '=', 'r.user_id')
+                    ->on('pu.product_id', '=','rp.product_id');
+            })
+            ->join('products as p', 'p.id', '=', 'rp.product_id')
+            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id')
+            ->where('rp.request_id', $id)->get();
     }
 
     public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator
     {
-        return Request::findorfail($id)->products()->paginate($limit);
+        return DB::table('request_product')
+            ->join('requests', 'request_product.request_id', '=', 'requests.id')
+            ->join('product_user', function ($join) {
+                $join->on('product_user.user_id', '=', 'requests.user_id')
+                    ->where('product_user.product_id', '=','request_product.product_id');
+            })
+            ->select('request_product.*', 'product_user.quantity AS user_stock')
+            ->where('request_product.request_id', $id)->get();
+        //return Request::findorfail($id)->products()->paginate($limit);
     }
 
     public function getDetail(int $id): Request 

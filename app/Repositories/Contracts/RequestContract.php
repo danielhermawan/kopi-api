@@ -24,7 +24,7 @@ interface RequestContract
     public function getAll(bool $filter = false, bool $isDone = false): Collection;
     public function getDetail(int $id): Request;
     public function getPaginate(bool $filter = false, bool $isDone = false, int $limit = 15): LengthAwarePaginator;
-    public function getProducts(int $id): Collection;
+    public function getProducts(int $id);
     public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator;
     public function requestDone(int $id);
 }

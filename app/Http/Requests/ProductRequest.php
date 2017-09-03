@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class ProductRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,18 @@ class ProductRequest extends FormRequest
             'min_stock' => 'filled|numeric|min:0',
             'per_stock' => 'filled|numeric|min:0',
             'purchase_price' => 'filled|numeric|min:0',
+            'min_stock_unit' => [
+                'filled',
+                Rule::in(['pcs', 'carton', 'pack'])
+            ],
+            'type' => [
+                'filled',
+                Rule::in(['order', 'stock', 'stock_order', 'stock_kg'])
+            ],
+            'recipe' => [
+                'filled',
+                'json'
+            ]
         ];
     }
 }
