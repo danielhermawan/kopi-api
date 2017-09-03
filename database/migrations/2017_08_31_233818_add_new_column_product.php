@@ -14,8 +14,8 @@ class AddNewColumnProduct extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->enum('min_stock_unit', ['pcs', 'carton'])->nullable();
-            $table->enum('type', ['order', 'stock', 'stock_order', 'stock_kg', 'pack'])->nullable();
+            $table->enum('min_stock_unit', ['pcs', 'carton', 'pack'])->nullable();
+            $table->enum('type', ['order', 'stock', 'stock_order', 'stock_kg'])->nullable();
             $table->json('recipe')->nullable();
         });
     }
