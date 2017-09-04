@@ -24,6 +24,7 @@ class RequestController extends Controller
 
     public function create(OrderRequest $request)
     {
+        // todo: in request add new param named unit so we can convert it and adjust with quantity in database
         $products = $request->input("products");
         $userId = $request->user()->id;
         foreach ($products as $p) {

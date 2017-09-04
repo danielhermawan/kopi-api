@@ -61,14 +61,10 @@ class RequestRepository implements RequestContract
     public function checkMinStock(int $productId, int $quantity)
     {
         $product = Product::find($productId);
-        if($product->min_stock_unit != 'carton')
-            $minStock = $product->min_stock;
-        else
-            $minStock = $product->per_stock * $product->min_stock;
-        if($quantity > $minStock)
-            return false;
-        else
+        if($quantity >= $product->min_stock)
             return true;
+        else
+            return false;
     }
 
     public function getAll(bool $filter = false, bool $isDone = false): Collection
@@ -140,7 +136,6 @@ class RequestRepository implements RequestContract
                 DB::table('product_user')->where('user_id', $request->user_id)
                     ->where('product_id', $p->id)->increment('quantity', $inc);
             }
-
         }
         $this->db->commit();
 

@@ -46,5 +46,3 @@ Route::group(['middleware' => 'auth:api-admin'], function () {
     Route::get('order/{id}', 'OrderController@show');
     Route::get('order/{id}/product', 'OrderController@getProducts');
 });
-// todo: Update request done api
-// todo: fix update api

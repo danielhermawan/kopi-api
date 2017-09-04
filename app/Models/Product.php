@@ -19,6 +19,10 @@ class Product extends Model
 
     protected $fillable = ['name', 'price', 'currency', 'image_url', 'category_id'];
 
+    protected $casts = [
+        'recipe' => 'array'
+    ];
+
     public function category()
     {
         return $this->belongsTo('App\Models\ProductCategory');

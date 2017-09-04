@@ -53,16 +53,23 @@ class ProductRepository implements ProductContract
     public function checkStock(int $idProduct, int $idUser, int $orderQuantity): bool
     {
         $product = Product::find($idProduct);
-        $quantity = $this->db->table("product_user")->where('user_id', $idUser)
-            ->where("product_id", $idProduct)->value("quantity");
         if($product->recipe == null) {
+            $quantity = $this->db->table("product_user")->where('user_id', $idUser)
+                ->where("product_id", $idProduct)->value("quantity");
             if($orderQuantity > $quantity)
                 return false;
             else
                 return true;
         }
         else {
-            // todo: jika ada recipe
+            foreach($product->recipe as $key => $value) {
+                $q = $this->db->table('product_user')->where([
+                    'user_id' => $idUser,
+                    'product_id' => $key
+                ])->value('quantity');
+                if($value > $q)
+                    return false;
+            }
             return true;
         }
     }

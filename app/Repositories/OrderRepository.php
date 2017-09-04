@@ -57,7 +57,12 @@ class OrderRepository implements OrderContract
                 ])->decrement("quantity", $p["quantity"]);
             }
             else {
-                // todo: jika ada recipe
+                foreach($entity->recipe as $key => $value) {
+                    $this->db->table('product_user')->where([
+                        'user_id' => $userId,
+                        'product_id' => $key
+                    ])->decrement("quantity", $p["quantity"] * $value);
+                }
             }
         }
         $order->products()->attach($dataProduct);
