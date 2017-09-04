@@ -26,6 +26,13 @@ class RequestController extends Controller
     {
         $products = $request->input("products");
         $userId = $request->user()->id;
+        foreach ($products as $p) {
+            $available = $this->requestRepo->checkMinStock($p['id'], $p['quantity']);
+            if(!$available)
+                return $this->jsonReponse([
+                    "message" => "Request stock dibawah minimum stock!"
+                ], 422);
+        }
         $this->requestRepo->create($userId, $products);
         return $this->jsonReponse([], 201);
     }

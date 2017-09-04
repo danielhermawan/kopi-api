@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Product;
 use App\Models\Request;
 use App\Repositories\Contracts\RequestContract;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -55,6 +56,19 @@ class RequestRepository implements RequestContract
         $request->products()->attach($dataProduct);
         $this->db->commit();
         return $request;
+    }
+
+    public function checkMinStock(int $productId, int $quantity)
+    {
+        $product = Product::find($productId);
+        if($product->min_stock_unit != 'carton')
+            $minStock = $product->min_stock;
+        else
+            $minStock = $product->per_stock * $product->min_stock;
+        if($quantity > $minStock)
+            return false;
+        else
+            return true;
     }
 
     public function getAll(bool $filter = false, bool $isDone = false): Collection
@@ -112,8 +126,21 @@ class RequestRepository implements RequestContract
         $request->save();
         $products = $request->products;
         foreach ($products as $p) {
-            DB::table('product_user')->where('user_id', $request->user_id)
-                ->where('product_id', $p->id)->increment('quantity', $p->pivot->quantity);
+            if($p->type == 'stock_kg') {
+                $inc = $p->pivot->quantity * 1000;
+                DB::table('product_user')->where('user_id', $request->user_id)
+                    ->where('product_id', $p->id)->increment('quantity', $inc);
+            }
+            else if($p->min_stock_unit != 'carton') {
+                DB::table('product_user')->where('user_id', $request->user_id)
+                    ->where('product_id', $p->id)->increment('quantity', $p->pivot->quantity);
+            }
+            else {
+                $inc = $p->pivot->quantity * $p->per_stock;
+                DB::table('product_user')->where('user_id', $request->user_id)
+                    ->where('product_id', $p->id)->increment('quantity', $inc);
+            }
+
         }
         $this->db->commit();
 

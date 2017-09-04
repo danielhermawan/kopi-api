@@ -55,7 +55,8 @@ class ProductController extends Controller
         $path = $request->file('image')->store('images');;
         $data['image_url'] = env('APP_URL').'storage/'.$path;
         $product = $this->productRepo->create($data);
-        event(new ProductCreated($product));
+        if($product->type != 'order')
+            event(new ProductCreated($product));
         return $this->jsonReponse($this->transformItem($product, new ProductTransformer()), 201);
     }
 

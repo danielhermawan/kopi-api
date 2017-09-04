@@ -37,7 +37,7 @@ class ProductRequest extends ApiFormRequest
                 Rule::in(['pcs', 'carton', 'pack'])
             ],
             'type' => [
-                'filled',
+                'required',
                 Rule::in(['order', 'stock', 'stock_order', 'stock_kg'])
             ],
             'recipe' => [

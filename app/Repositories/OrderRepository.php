@@ -50,10 +50,15 @@ class OrderRepository implements OrderContract
                 "quantity" => $p["quantity"],
                 "price" => $entity->price
             ];
-            $this->db->table('product_user')->where([
-                'user_id' => $userId,
-                'product_id' => $p["id"]
-            ])->decrement("quantity", $p["quantity"]);
+            if($entity->recipe == null) {
+                $this->db->table('product_user')->where([
+                    'user_id' => $userId,
+                    'product_id' => $p["id"]
+                ])->decrement("quantity", $p["quantity"]);
+            }
+            else {
+                // todo: jika ada recipe
+            }
         }
         $order->products()->attach($dataProduct);
         $this->db->commit();
