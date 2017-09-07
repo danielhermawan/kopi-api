@@ -37,11 +37,12 @@ class ProductUpdateRequest extends FormRequest
             'currency' => 'filled|string',
             'image' => 'filled|image',
             'category_id' => 'required',
-            'min_stock' => 'filled|numeric|min:0',
+            'min_stock' => 'filled|numeric|min:0|required_with:min_stock_unit',
             'per_stock' => 'filled|numeric|min:0',
             'purchase_price' => 'filled|numeric|min:0',
             'min_stock_unit' => [
                 'filled',
+                'required_with:min_stock_unit',
                 Rule::in(['pcs', 'carton', 'pack'])
             ],
             'type' => [
