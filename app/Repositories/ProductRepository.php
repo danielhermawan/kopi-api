@@ -63,11 +63,11 @@ class ProductRepository implements ProductContract
         }
         else {
             foreach($product->recipe as $key => $value) {
-                $q = $this->db->table('product_user')->where([
+                $quantity = $this->db->table('product_user')->where([
                     'user_id' => $idUser,
                     'product_id' => $key
                 ])->value('quantity');
-                if($value > $q)
+                if(($value * $orderQuantity) > $quantity)
                     return false;
             }
             return true;
