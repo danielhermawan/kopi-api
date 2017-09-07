@@ -92,7 +92,7 @@ class RequestRepository implements RequestContract
                     ->on('pu.product_id', '=','rp.product_id');
             })
             ->join('products as p', 'p.id', '=', 'rp.product_id')
-            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id', 'p.min_stock_unit')
+            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id', 'p.min_stock_unit', 'p.type')
             ->where('rp.request_id', $id)->get();
     }
 

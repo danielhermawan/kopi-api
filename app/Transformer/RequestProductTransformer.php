@@ -22,7 +22,8 @@ class RequestProductTransformer extends TransformerAbstract
             "price" => $product->price,
             "quantity" => $product->quantity,
             "user_stock" => $product->user_stock,
-            "min_stock_unit" => $product->min_stock_unit
+            "min_stock_unit" => $product->min_stock_unit,
+            "type" => $product->type
         ];
     }
 }
