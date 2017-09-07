@@ -119,12 +119,12 @@ class ProductRepository implements ProductContract
         $product->currency = $data['currency'] ?? "IDR";
         $product->category_id = $data['category_id'];
         $product->image_url = $data['image_url'] ?? $product->image_url;
-        $product->min_stock = $data['min_stock'] ?? null;
-        $product->per_stock = $data['per_stock'] ?? null;
-        $product->purchase_price = $data['purchase_price'] ?? null;
-        $product->min_stock_unit = $data['min_stock_unit'] ?? null;
-        $product->type = $data['type'] ?? null;
-        $product->recipe = $data['recipe'] ?? null;
+        $product->min_stock = $data['min_stock'] ?? $product->min_stock;
+        $product->per_stock = $data['per_stock'] ?? $product->per_stock;
+        $product->purchase_price = $data['purchase_price'] ?? $product->purchase_price;
+        $product->min_stock_unit = $data['min_stock_unit'] ?? $product->min_stock_unit;
+        $product->type = $data['type'] ?? $product->type;
+        $product->recipe = $data['recipe'] ?? $product->recipe;
         $product->save();
         return $product;
     }
