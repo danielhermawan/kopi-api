@@ -92,20 +92,21 @@ class RequestRepository implements RequestContract
                     ->on('pu.product_id', '=','rp.product_id');
             })
             ->join('products as p', 'p.id', '=', 'rp.product_id')
-            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id')
+            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id', 'p.min_stock_unit')
             ->where('rp.request_id', $id)->get();
     }
 
     public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator
     {
-        return DB::table('request_product')
-            ->join('requests', 'request_product.request_id', '=', 'requests.id')
-            ->join('product_user', function ($join) {
-                $join->on('product_user.user_id', '=', 'requests.user_id')
-                    ->where('product_user.product_id', '=','request_product.product_id');
+        return DB::table('request_product as rp')
+            ->join('requests as r', 'rp.request_id', '=', 'r.id')
+            ->join('product_user as pu', function ($join) {
+                $join->on('pu.user_id', '=', 'r.user_id')
+                    ->on('pu.product_id', '=','rp.product_id');
             })
-            ->select('request_product.*', 'product_user.quantity AS user_stock')
-            ->where('request_product.request_id', $id)->get();
+            ->join('products as p', 'p.id', '=', 'rp.product_id')
+            ->select('rp.*', 'pu.quantity AS user_stock', 'p.name', 'p.price', 'p.id')
+            ->where('rp.request_id', $id)->get()->paginate($limit);
         //return Request::findorfail($id)->products()->paginate($limit);
     }
 
