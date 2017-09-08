@@ -20,9 +20,15 @@ class SellerRequestTransformer extends TransformerAbstract
 
     public function transform($request): array
     {
-        $sum = DB::select('SELECT SUM (p.purchase_price * rp.quantity) AS total 
+        // todo: quantity * jumlah perkarton
+        $products = DB::select('SELECT purchase_price, quantity 
               FROM request_product rp INNER JOIN products p On p.id = rp.product_id
-              WHERE request_id = ?', [$request->id])[0]->total;
+              WHERE request_id = ?', [$request->id]);
+        $sum = 0;
+        foreach ($products as $p) {
+            if($p->purchase_price != null)
+                $sum += $p->purchase_price * $p->quantity;
+        }
         return [
             "id" => $request->id,
             "total" => $sum,
