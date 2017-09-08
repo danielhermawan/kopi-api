@@ -95,6 +95,7 @@ class ProductRepository implements ProductContract
 
     public function create($data): Product
     {
+    	// todo: Fix adding recipe in api product create and product
         $product = new Product;
         $product->name = $data['name'];
         $product->price = $data['price'];
