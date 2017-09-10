@@ -61,6 +61,8 @@ class RequestRepository implements RequestContract
     public function checkMinStock(int $productId, int $quantity)
     {
         $product = Product::find($productId);
+        if($product->min_stock == null)
+            return true;
         if($quantity >= $product->min_stock)
             return true;
         else
