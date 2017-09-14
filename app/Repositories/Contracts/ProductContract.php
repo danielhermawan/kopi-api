@@ -19,6 +19,7 @@ interface ProductContract
     public function getDetail(int $id): Product;
     public function create($data): Product;
     public function update(int $id, $data): Product;
+    public function updateQuantity(int $sellerId, int $productid, int $quantity);
     public function delete($id);
     public function checkStock(int $idProduct, int $idUser, int $quantity): bool;
 }

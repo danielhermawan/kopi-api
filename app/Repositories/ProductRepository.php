@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Models\Product;
+use App\Models\User;
 use App\Repositories\Contracts\ProductContract;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
@@ -128,6 +129,13 @@ class ProductRepository implements ProductContract
         $product->recipe = $data['recipe'] ?? $product->recipe;
         $product->save();
         return $product;
+    }
+
+    public function updateQuantity(int $sellerId, int $productid, int $quantity)
+    {
+        return User::find($sellerId)->products()->updateExistingPivot($productid, [
+            'quantity' => $quantity
+        ]);
     }
 
     public function delete($id)

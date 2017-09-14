@@ -90,6 +90,13 @@ class ProductController extends Controller
         return $this->jsonReponse($this->transformItem($product, new ProductTransformer()), 200);
     }
 
+    public function updateQuantity(Request $request, $sellerId, $productId)
+    {
+        $quantity = $request->get('quantity', 0);
+        $this->productRepo->updateQuantity($sellerId, $productId, $quantity);
+        return $this->jsonReponse([], 204);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

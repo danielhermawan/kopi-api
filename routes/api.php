@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api-admin'], function () {
     ]]);
 
     Route::post('product/{id}/update', 'ProductController@update');
+    Route::post('seller/{sellerId}/product/{productId}', 'ProductController@updateQuantity');
     Route::get('seller/{id}/product', 'SellerController@getProducts');
     Route::get('seller/{id}/order', 'SellerController@getOrders');
     Route::get('seller/{id}/request', 'SellerController@getRequests');
