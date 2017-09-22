@@ -150,6 +150,6 @@ class RequestRepository implements RequestContract
             }
         }
         $this->db->commit();
-
+        return $request;
     }
 }

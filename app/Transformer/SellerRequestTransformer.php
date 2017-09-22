@@ -32,7 +32,7 @@ class SellerRequestTransformer extends TransformerAbstract
         return [
             "id" => $request->id,
             "total" => $sum,
-            "status" => $request->is_done,
+            "status" => $request->status,
             "created_at" => $request->created_at,
             "updated_at" => $request->updated_at
         ];

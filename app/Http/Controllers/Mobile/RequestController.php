@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Events\RequestChange;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\RequestRepository;
@@ -34,14 +35,16 @@ class RequestController extends Controller
                     "message" => "Request stock dibawah minimum stock!"
                 ], 422);
         }
-        $this->requestRepo->create($userId, $products);
+        $request = $this->requestRepo->create($userId, $products);
+        event(new RequestChange($request));
         return $this->jsonReponse([], 201);
     }
 
     //todo: authrisation for user
     public function requestFinish($id)
     {
-        $this->requestRepo->requestDone($id);
+        $request = $this->requestRepo->requestDone($id);
+        event(new RequestChange($request));
         return $this->jsonReponse(null, 204);
     }
 
