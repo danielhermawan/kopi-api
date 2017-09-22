@@ -48,4 +48,5 @@ class MeController extends Controller
         $result = $this->transformCollection($products, new ProductCategoryTransformer());
         return $this->jsonReponse($result);
     }
+
 }

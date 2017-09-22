@@ -69,19 +69,19 @@ class RequestRepository implements RequestContract
             return false;
     }
 
-    public function getAll(bool $filter = false, bool $isDone = false): Collection
+    public function getAll($filter = '0', bool $isDone = false): Collection
     {
         $query = $this->request;
         if($filter)
-            $query->where('is_done', $isDone);
+            $query->where('status', $isDone);
         return $this->request->get();
     }
 
-    public function getPaginate(bool $filter = false, bool $isDone = false, int $limit = 15): LengthAwarePaginator
+    public function getPaginate($filter = '0', bool $isDone = false, int $limit = 15): LengthAwarePaginator
     {
         $query = $this->request;
         if($filter)
-            $query->where('is_done', $isDone);
+            $query->where('status', $isDone);
         return $this->request->paginate();
     }
 
@@ -117,11 +117,20 @@ class RequestRepository implements RequestContract
         return Request::findorfail($id);
     }
 
+    public function requestSent(int $id)
+    {
+        $this->db->beginTransaction();
+        $request = Request::findorfail($id);
+        $request->status = '1';
+        $request->save();
+        $this->db->commit();
+    }
+
     public function requestDone(int $id)
     {
         $this->db->beginTransaction();
         $request = Request::findorfail($id);
-        $request->is_done = true;
+        $request->status = '2';
         $request->save();
         $products = $request->products;
         foreach ($products as $p) {

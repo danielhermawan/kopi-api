@@ -21,10 +21,11 @@ interface RequestContract
      * @return Request
      */
     public function create(int $userId, array $products): Request;
-    public function getAll(bool $filter = false, bool $isDone = false): Collection;
+    public function getAll($filter = '0', bool $isDone = false): Collection;
     public function getDetail(int $id): Request;
-    public function getPaginate(bool $filter = false, bool $isDone = false, int $limit = 15): LengthAwarePaginator;
+    public function getPaginate($filter = '0', bool $isDone = false, int $limit = 15): LengthAwarePaginator;
     public function getProducts(int $id);
     public function getProductsPaginate(int $id, int $limit = 15): LengthAwarePaginator;
+    public function requestSent(int $id);
     public function requestDone(int $id);
 }

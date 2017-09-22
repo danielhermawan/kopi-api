@@ -69,9 +69,9 @@ class RequestController extends Controller
         return $this->jsonReponse($result);
     }
 
-    public function requestFinish($id)
+    public function requestSent($id)
     {
-        $this->repository->requestDone($id);
+        $this->repository->requestSent($id);
         return $this->jsonReponse(null, 204);
     }
 }

@@ -60,4 +60,6 @@ class UserRepository extends BaseRepository
             ->whereIn('type', ['stock', 'stock_order', 'stock_kg'])
             ->get();
     }
+
+
 }

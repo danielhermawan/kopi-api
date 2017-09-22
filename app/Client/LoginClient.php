@@ -19,6 +19,7 @@ class LoginClient extends BaseClient
             'client_id' => env('PASSWORD_CLIENT_ID'),
             'client_secret' => env('PASSWORD_CLIENT_SECRET')
         ];
+        print_r($data);die();
         $response = $this->postRequest('oauth/token', $data);
         return $this->generateReponse($response);
     }

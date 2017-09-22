@@ -38,5 +38,11 @@ class RequestController extends Controller
         return $this->jsonReponse([], 201);
     }
 
+    //todo: authrisation for user
+    public function requestFinish($id)
+    {
+        $this->requestRepo->requestDone($id);
+        return $this->jsonReponse(null, 204);
+    }
 
 }
