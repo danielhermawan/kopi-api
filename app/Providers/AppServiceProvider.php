@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
-use Pusher\Pusher;
+use Pusher;
 
 class AppServiceProvider extends ServiceProvider
 {
