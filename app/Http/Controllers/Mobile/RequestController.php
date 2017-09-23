@@ -6,6 +6,8 @@ use App\Events\RequestChange;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\RequestRepository;
+use App\Transformer\SellerRequestTransformer;
+use Auth;
 
 class RequestController extends Controller
 {
@@ -40,12 +42,26 @@ class RequestController extends Controller
         return $this->jsonReponse([], 201);
     }
 
-    //todo: authrisation for user
     public function requestFinish($id)
     {
-        $request = $this->requestRepo->requestDone($id);
-        event(new RequestChange($request));
-        return $this->jsonReponse(null, 204);
+        $rqst = $this->requestRepo->getDetail($id);
+        if(Auth::user()->can('finish', $rqst) and $rqst->status == '1') {
+            $request = $this->requestRepo->requestDone($id);
+            event(new RequestChange($request));
+            return $this->jsonReponse(null, 204);
+        }
+        else
+            return $this->jsonReponse(['message'=>'Forbidden'], 403);
+    }
+
+    // todo: private, push mobile
+    public function showRequest($id)
+    {
+        $request = $this->requestRepo->getDetail($id);
+        if(Auth::user()->can('finish', $request))
+            return $this->jsonReponse($this->transformItem($request, new SellerRequestTransformer()));
+        else
+            return $this->jsonReponse(['message'=>'Forbidden'], 403);
     }
 
 }

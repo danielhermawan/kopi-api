@@ -61,5 +61,12 @@ class UserRepository extends BaseRepository
             ->get();
     }
 
+    public function getRequest($userId)
+    {
+        return User::find($userId)->requests()
+            ->where('status', '=', '1')
+            ->get();
+    }
+
 
 }

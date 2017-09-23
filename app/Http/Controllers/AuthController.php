@@ -13,6 +13,7 @@ class AuthController extends Controller
 
     private $repository;
     private $client;
+    private $pusher;
 
     /**
      * LoginController constructor.
@@ -21,6 +22,16 @@ class AuthController extends Controller
     {
         $this->client = $loginClient;
         $this->repository = $repository;
+        $this->pusher = resolve('PusherClient');;
+    }
+
+    public function authPusher(Request $request)
+    {
+        if(Auth::guard('api-admin')->check())
+            return $this->pusher
+                ->socket_auth($request->input('channel_name'), $request->input('socket_id'));
+        else
+            return $this->jsonReponse(null, 403);
     }
 
     /**
