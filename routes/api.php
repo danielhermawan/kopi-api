@@ -19,8 +19,8 @@ Route::post('/pusher/auth', 'AuthController@authPusher');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('order', 'Mobile\OrderController@create');
     Route::post('request', 'Mobile\RequestController@create');
-    Route::get('/me/request', 'Mobile\MeController@getRequests');
-    Route::get('/me/request/{id}', 'Mobile\RequestController@getSendedRequests');
+    Route::get('/me/request', 'Mobile\MeController@getSendedRequests');
+    Route::get('/me/request/{id}', 'Mobile\RequestController@showRequest');
     Route::get('/me/product', "Mobile\MeController@getProducts");
     Route::get('/me/request/{id}/product', 'Mobile\RequestController@getProducts');
     Route::get('/me/category', "Mobile\MeController@getCategories");
