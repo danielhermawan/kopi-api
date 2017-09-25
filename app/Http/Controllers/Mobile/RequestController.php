@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\RequestRepository;
 use App\Transformer\SellerRequestTransformer;
+use App\Transformer\RequestProductTransformer;
 use Auth;
 
 class RequestController extends Controller
@@ -54,18 +55,11 @@ class RequestController extends Controller
             return $this->jsonReponse(['message'=>'Forbidden'], 403);
     }
 
-    public function getProducts(Request $request, $id)
+    public function getProducts($id)
     {
         // todo: add authroisation
-        $paginate = $request->get('paginate', 0);
-        if($paginate == 0) {
-            $products = $this->repository->getProducts($id);
-            return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer(), 'data'));
-        }
-        else {
-            $paginator = $this->repository->getProductsPaginate($id);
-            return $this->jsonReponse($this->paginateCollection($paginator, new RequestProductTransformer(), "data"));
-        }
+       $products = $this->requestRepo->getProducts($id);
+        return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer(), 'data'));
     }
 
     // todo: push mobile
