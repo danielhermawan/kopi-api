@@ -18,6 +18,7 @@ class RequestProductTransformer extends TransformerAbstract
     {
         return [
             "id" => $product->id,
+            "image_url" => $product->image_url,
             "name" => $product->name,
             "price" => $product->price,
             "quantity" => $product->quantity,

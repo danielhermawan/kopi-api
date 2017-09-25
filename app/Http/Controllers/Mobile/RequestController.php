@@ -59,7 +59,7 @@ class RequestController extends Controller
     {
         // todo: add authroisation
        $products = $this->requestRepo->getProducts($id);
-        return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer(), 'data'));
+        return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer()));
     }
 
     // todo: push mobile
