@@ -65,6 +65,8 @@ class UserRepository extends BaseRepository
     {
         return User::find($userId)->requests()
             ->where('status', '=', '1')
+            ->orWhere('status', '=', '2')
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 

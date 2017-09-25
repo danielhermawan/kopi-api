@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/me/request', 'Mobile\MeController@getRequests');
     Route::get('/me/request/{id}', 'Mobile\RequestController@getSendedRequests');
     Route::get('/me/product', "Mobile\MeController@getProducts");
+    Route::get('/me/request/{id}/product', 'Mobile\RequestController@getProducts');
     Route::get('/me/category', "Mobile\MeController@getCategories");
     Route::get('/me/product-order', "Mobile\MeController@getProductOrders");
     Route::get('/me/product-stock', "Mobile\MeController@getStockOrders");

@@ -54,7 +54,21 @@ class RequestController extends Controller
             return $this->jsonReponse(['message'=>'Forbidden'], 403);
     }
 
-    // todo: private, push mobile
+    public function getProducts(Request $request, $id)
+    {
+        // todo: add authroisation
+        $paginate = $request->get('paginate', 0);
+        if($paginate == 0) {
+            $products = $this->repository->getProducts($id);
+            return $this->jsonReponse($this->transformCollection($products, new RequestProductTransformer(), 'data'));
+        }
+        else {
+            $paginator = $this->repository->getProductsPaginate($id);
+            return $this->jsonReponse($this->paginateCollection($paginator, new RequestProductTransformer(), "data"));
+        }
+    }
+
+    // todo: push mobile
     public function showRequest($id)
     {
         $request = $this->requestRepo->getDetail($id);
